@@ -1,8 +1,12 @@
 from threading import Thread
+import threading
 import string
 import random
 import requests
 import json
+import time
+
+x = 0
 
 def async(f):
     def wrapper(*args, **kwargs):
@@ -21,15 +25,25 @@ def create_notification():
     }
 
     r = requests.post(URL, data=json.dumps(data), headers={'content-type': 'application/json'})
-    print r.text
+    global x
+    x += 1
+    #print r.text
 
 @async
 def get_notifications(user_id):
     URL = 'http://localhost:8080/notifications/by_user/' + str(user_id)
 
     r = requests.get(URL)
-    print r.text
+    global x
+    x += 1
+    #print r.text
 
-for i in xrange(5000):
+start = time.time()
+for i in xrange(20000):
     create_notification()
-    get_notifications(random.randint(0,100))
+    y = threading.active_count()
+    if y > 10:
+        print y
+
+print str(time.time() - start) + ' seconds'
+print str(x) + ' requests'
