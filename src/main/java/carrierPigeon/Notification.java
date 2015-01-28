@@ -2,10 +2,12 @@ package carrierPigeon;
 
 public class Notification {
 
-	private final int id;
-	private final int user_id;
-	private final int timestamp;
-	private final String message;
+	private int id;
+	private int user_id;
+	private int timestamp;
+	private String message;
+
+	public Notification() {}
 
 	public Notification(int id, int user_id, int timestamp, String message) {
 		this.id = id;
@@ -28,6 +30,10 @@ public class Notification {
 
 	public String getMessage() {
 		return message;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
