@@ -52,10 +52,11 @@ GET /notifications/by_user/4
 
 # TODO
 
-1. Consider replacing HashMap<user_id, PriorityQueue<Notification>> with SQLite or another database, depending on needs for scaling.
+1. Consider replacing `HashMap<user_id, PriorityQueue<Notification>>` with SQLite or another database, depending on needs for scaling.
 2. Enable the ability to "read" a notification and only display unread notifications.
 3. Enable the ability to update a notification's message.
 
 # Limitations
 
-TODO
+1. Right now, the database is not persisted after the server is stopped since it is stored internally as a HashMap. This can be mitigated by replacing the "database" with a real database, perhaps a NoSQL database since the data is not too complex or relational.
+2. Under a simple threaded load test, creating a notification and randomly reading another user's notifications produced 11 active threads on average at a time. It handled 10000 requests in 20 seconds, or roughly 500 requests per second. If too many requests were made, the server would refuse further connections. This could be mitigated by changing the database to a NoSQL database and putting duplicate servers behind a load balancer.
